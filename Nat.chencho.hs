@@ -1,3 +1,6 @@
+--Chongxian Chen
+--chencho 932291439
+
 module Nat where
 
 import Prelude hiding (Enum(..), sum)
@@ -37,8 +40,9 @@ four = Succ three
 --   >>> pred three
 --   Succ (Succ Zero)
 --   
-pred = undefined
-
+pred :: Nat -> Nat
+pred (Zero) = Zero
+pred (Succ n) = n
 
 -- | True if the given value is zero.
 --
@@ -48,8 +52,9 @@ pred = undefined
 --   >>> isZero two
 --   False
 --
-isZero = undefined
-
+isZero :: Nat -> Bool
+isZero(Zero) = True
+isZero(_) = False
 
 -- | Convert a natural number to an integer.
 --
@@ -59,8 +64,9 @@ isZero = undefined
 --   >>> toInt three
 --   3
 --
-toInt = undefined
-
+toInt :: Nat -> Int
+toInt (Zero) = 0
+toInt (Succ n) = 1 + toInt(n)
 
 -- | Add two natural numbers.
 --
@@ -76,8 +82,9 @@ toInt = undefined
 --   >>> add two three == add three two
 --   True
 --   
-add = undefined
-
+add :: Nat -> Nat -> Nat
+add Zero n = n
+add (Succ n) m = Succ (add n m)
 
 -- | Subtract the second natural number from the first. Return zero
 --   if the second number is bigger.
@@ -94,7 +101,10 @@ add = undefined
 --   >>> sub one three
 --   Zero
 --
-sub = undefined
+sub :: Nat -> Nat -> Nat
+sub Zero _ = Zero
+sub n Zero = n
+sub n m = sub (pred n) (pred m)
 
 
 -- | Is the left value greater than the right?
@@ -108,8 +118,10 @@ sub = undefined
 --   >>> gt two two
 --   False
 --
-gt = undefined
-
+gt :: Nat -> Nat -> Bool
+gt Zero _ = False
+gt _ Zero = True
+gt n m = gt (pred n) (pred m)
 
 -- | Multiply two natural numbers.
 --
@@ -125,7 +137,11 @@ gt = undefined
 --   >>> toInt (mult three three)
 --   9
 --
-mult = undefined
+mult :: Nat -> Nat -> Nat
+mult Zero _ = Zero
+mult _ Zero = Zero
+mult m n = if n == Succ Zero then add m Zero
+else add m (mult m (pred n))
 
 
 -- | Compute the sum of a list of natural numbers.
@@ -139,7 +155,9 @@ mult = undefined
 --   >>> toInt (sum [one,two,three])
 --   6
 --
-sum = undefined
+sum :: [Nat] -> Nat
+sum [] = Zero
+sum (x:xs) = add x (sum xs)
 
 
 -- | An infinite list of all of the *odd* natural numbers, in order.
@@ -150,4 +168,8 @@ sum = undefined
 --   >>> toInt (sum (take 100 odds))
 --   10000
 --
-odds = undefined
+plusTwo :: Nat -> Nat
+plusTwo a = Succ (Succ a)
+
+odds :: [Nat]
+odds = iterate plusTwo one
