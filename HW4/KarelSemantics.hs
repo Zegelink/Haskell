@@ -9,7 +9,8 @@ import KarelState
 
 -- | Valuation function for Test.
 test :: Test -> World -> Robot -> Bool
-test = undefined
+test (Not t) w r = not (test t w r)
+test (Facing c) w r = if (c == (getFacing r)) then Ture else False
 
 -- | Valuation function for Stmt.
 stmt :: Stmt -> Defs -> World -> Robot -> Result
