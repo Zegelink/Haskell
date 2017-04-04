@@ -1,3 +1,6 @@
+--Author: Chongxian Chen
+--Date: February 27, 2017
+
 module KarelSemantics where
 
 import Prelude hiding (Either(..))
